@@ -1,9 +1,9 @@
 import sys
 import pygame as pg
-from objects import Player
-from objects import Apple
-from objects import WordScreen
-from objects import Words
+from modules.characters import Player
+from modules.characters import Apple
+from modules.words import WordScreen
+from modules.words import Words
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -11,14 +11,20 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+
 class Game:
+
     def __init__(self):
+
         pg.init()
+
         self.highscore = 0
+
         try:
             with open('highscore.txt', 'r', encoding='UTF-8') as highscore:
                 self.highscore = int(highscore.read())
-        except:
+
+        except FileNotFoundError:
             with open('highscore.txt', 'w', encoding='UTF-8') as highscore:
                 highscore.write(str(0))
 
@@ -44,6 +50,7 @@ class Game:
             self.running = 0
         elif event.type == pg.VIDEORESIZE:
             self.current_screen_size = event.size
+
     def screen_resize(self):
         if self.current_screen_size[0] // self.current_screen_size[1]:
             self.screen.blit(pg.transform.scale(self.display, (self.current_screen_size[1], self.current_screen_size[1])), ((self.current_screen_size[0] - self.current_screen_size[1]) / 2, 0))
@@ -106,8 +113,9 @@ class Game:
             self.screen_resize()
             pg.display.update()
             self.clock.tick(self.speed)
+
         pg.quit()
 
 if __name__ == '__main__':
     Game().run()
-sys.exit()
+
